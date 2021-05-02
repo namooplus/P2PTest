@@ -1,23 +1,48 @@
-let connector, channel, isCaller;
+let connector, channel, isCaller, notified;
 
 function initConnection()
 {
     connector = new RTCPeerConnection();
     connector.onicecandidate = e => {
+        if (notified) return;
+
         console.log("나의 연결 정보");
         console.log(JSON.stringify(connector.localDescription));
+        addNoti("- 로그를 확인해 자신의 연결 정보를 상대방에게 전달해주세요. -");
+        notified = true;
     };
 }
-function addChat(message, who)
+function addChat(message, isMe)
+{
+    // 현재 날짜 불러오기
+    const date = new Date();
+
+    // UI 업데이트
+    const newChat = document.createElement('p');
+    newChat.innerHTML = message + '<br><span style="color: gray; font-size: 0.5em;">' + date.toLocaleString() + '에 보냄.</span>';
+    newChat.style.display = "inline-block";
+    newChat.style.maxWidth = "200px";
+    newChat.style.borderRadius = "7px";
+    newChat.style.margin = "10px 20px";
+    newChat.style.padding = "10px 10px";
+    newChat.style.backgroundColor = isMe ? "beige" : "lightblue";
+    newChat.style.alignSelf = isMe ? "flex-end" : "flex-start";
+    newChat.style.boxShadow = "0 0 7px dimgrey";
+    newChat.style.textAlign = isMe ? "end" : "start";
+    newChat.style.color = "black";
+
+    document.querySelector('#chat-layout').appendChild(newChat);
+}
+function addNoti(message)
 {
     const newChat = document.createElement('p');
-    newChat.textContent = message;
-    newChat.style.borderBottom = "1px solid gray";
+    newChat.innerHTML = message;
     newChat.style.margin = "0";
-    newChat.style.padding = "5px 10px";
-    if (who == 0) newChat.style.textAlign = "end";
-    else if (who == 1) newChat.style.textAlign = "start";
-    else if (who == 2) newChat.style.textAlign = "center";
+    newChat.style.padding = "10px 0";
+    newChat.style.textAlign = "center";
+    newChat.style.alignSelf = "center";
+    newChat.style.color = "gray";
+
     document.querySelector('#chat-layout').appendChild(newChat);
 }
 
@@ -32,10 +57,10 @@ function createChannel()
         document.querySelector('#state-me').classList.add("blue");
         document.querySelector('#state-other').textContent = '연결됨';
         document.querySelector('#state-other').classList.add("blue");
-        addChat("(알림) 상대방과 연결되었습니다.", 2);
+        addNoti("- 상대방과 연결되었습니다. -");
     }
-    channel.onclose = e => addChat("(알림) 상대방과의 연결이 끊어졌습니다.", 2);
-    channel.onmessage = e => addChat(e.data, 1);
+    channel.onclose = e => addNoti("- 상대방과의 연결이 끊어졌습니다. -");
+    channel.onmessage = e => addChat(e.data, false);
 
     // '나' 접속
     connector.createOffer().then(offer => connector.setLocalDescription(offer));
@@ -57,10 +82,10 @@ function connectChannel()
             document.querySelector('#state-me').classList.add("blue");
             document.querySelector('#state-other').textContent = '연결됨';
             document.querySelector('#state-other').classList.add("blue");
-            addChat("(알림) 상대방과 연결되었습니다.", 2);
+            addNoti("- 상대방과 연결되었습니다. -");
         }
-        connectedChannel.onclose = e => addChat("(알림) 상대방과의 연결이 끊어졌습니다.", 2);
-        connectedChannel.onmessage = e => addChat(e.data, 1);
+        connectedChannel.onclose = e => addNoti("- 상대방과의 연결이 끊어졌습니다. -");
+        connectedChannel.onmessage = e => addChat(e.data, false);
         connector.channel = connectedChannel;
     }
 
@@ -104,7 +129,7 @@ function send()
     else connector.channel.send(message);
 
     // UI 업데이트
-    addChat(message, 0);
+    addChat(message, true);
     document.querySelector('#send-layout > input').value = '';
 }
 
