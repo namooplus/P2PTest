@@ -3,30 +3,40 @@
     <head>
         <meta charset="utf-8">
         <title>Peer</title>
+        <link rel="stylesheet" type="text/css" href="index.css">
         <script src="script.js"></script>
     </head>
-    <body style="padding: 20px;">
-        <h1>Peer</h1>
-        <hr>
-        <p>
-            <h2>나</h2>
-            <div id="pre-my-layout">
-                <button type="button" onclick="createChannel()">채널 생성하기</button>
-                혹은
-                <input id="sender-info" type="text" placeholder="채널 정보"> 에 
-                <button type="button" onclick="answerRequest()">연결하기</button>
-            </div>
-            <div id="post-my-layout"></div>
-        </p>
-        <p>
-            <h2>상대방</h2>
-            <div id="pre-your-layout">
-                <input id="receiver-info" type="text" placeholder="채널 정보"> 에 
-                <button type="button" onclick="acceptRequest()">연결하기</button>
-            </div>
-            <div id="post-your-layout"></div>
-        </p>
-        <hr>
-        <h2 style="margin-top: 30px;">챗</h2>
+    <body>
+        <nav>
+            <h1 id="title">Peer</h1>
+            <button id="create-channel-btn" class="nav-button" onclick="createChannel()">채널 생성하기</button><br>
+            <button id="connect-channel-btn" class="nav-button" onclick="connectChannel()">다른 채널에 연결하기</button>
+        </nav>
+        <div id="content">
+            <section id="info-layout">
+                <div id="info-other-layout">
+                    <h2>상대방</h2>
+                    <span id="state-other" class="red">연결되지 않음</span>
+                    <span id="input-other" class="hidden">
+                        <input type="text" placeholder="상대방 연결 정보를 입력해주세요.">
+                        <button type="button" onclick="acceptOther()">연결</button>
+                    </span>
+                </div>
+                <div id="info-me-layout">
+                    <h2>나</h2>
+                    <span id="state-me" class="red">연결되지 않음</span>
+                    <span id="input-me" class="hidden">
+                        <input type="text" placeholder="상대방 연결 정보를 입력해주세요.">
+                        <button type="button" onclick="connectMe()">연결</button>
+                    </span>
+                </div>
+            </section>
+            <section id="chat-layout">
+            </section>
+            <section id="send-layout">
+                <input type="text" placeholder="메시지를 입력하세요.">
+                <button type="button" onclick="send()">보내기</button>
+            </section>
+        </div>
     </body>
 </html>

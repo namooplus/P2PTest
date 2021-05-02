@@ -1,0 +1,96 @@
+/* layout */
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+nav {
+    width: 30%;
+    max-width: 300px;
+    background-color: skyblue;
+    padding: 30px;
+}
+#content {
+    display: flex;
+    flex-flow: column wrap;
+    flex-grow: 1;
+}
+#info-layout {
+    display: flex;
+    flex-flow: row wrap;
+    background-color: #EEEEEE;
+}
+#info-other-layout {
+    padding: 20px;
+    flex-grow: 1;
+    text-align: start;
+}
+#info-me-layout {
+    padding: 20px;
+    flex-grow: 1;
+    text-align: end;
+}
+#chat-layout {
+    flex-grow: 1;
+    overflow: scroll;
+}
+#send-layout {
+    height: 50px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+    background-color: #EEEEEE;
+}
+#send-layout > input {
+    flex-grow: 1;
+    padding: 0 20px;
+}
+
+/* element */
+#title {
+    margin: 0;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 4em;
+    font-weight: lighter;
+}
+.nav-button {
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 1.2em;
+    color: white;
+    transition: text-shadow 0.5s;
+}
+.nav-button:hover {
+    text-shadow: 0 0 10px dimgray;
+}
+h2 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+/* option */
+.hidden {
+    display: none;
+}
+.red {
+    color: lightcoral;
+}
+.yellow {
+    color: goldenrod;
+}
+.blue {
+    color: cornflowerblue;
+}
