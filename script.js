@@ -1,8 +1,14 @@
 let connector, channel, isCaller, notified;
 
+const iceConfig = { iceServers: [
+    {
+        urls: "stun:stun1.l.google.com:19302"
+    }
+]}
+
 function initConnection()
 {
-    connector = new RTCPeerConnection();
+    connector = new RTCPeerConnection(iceConfig);
     connector.onicecandidate = e => {
         if (notified) return;
 
